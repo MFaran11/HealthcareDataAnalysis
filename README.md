@@ -16,7 +16,7 @@ This project analyzes a dataset of 1,500 OCD patient records to answer key quest
 
 The goal is to transform raw patient records into clear, actionable insights using SQL queries.
 
-## 📂 Dataset
+## Dataset
 
 **File:** `ocd_patient.csv`
 
@@ -44,7 +44,7 @@ The dataset contains 1,500 anonymized patient records with the following fields:
 
 > **Note:** This is a de-identified/synthetic-style dataset used for learning and portfolio purposes only. It should not be used for real clinical decision-making.
 
-## 🛠️ Tools & Requirements
+##  Tools & Requirements
 
 - **Database:** MySQL 8.0+
 - **Client:** MySQL Workbench (or any MySQL-compatible client — DBeaver, CLI, etc.)
@@ -52,7 +52,7 @@ The dataset contains 1,500 anonymized patient records with the following fields:
 
 No external libraries or dependencies are required — this is a pure SQL project.
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ├── ocd_patient.csv              # Raw dataset
@@ -85,13 +85,6 @@ No external libraries or dependencies are required — this is a pure SQL projec
 | 4 | Most common obsession type & its average severity | `GROUP BY` + `ORDER BY` + `LIMIT` |
 | 5 | Most common compulsion type & its average severity | `GROUP BY` + `ORDER BY` + `LIMIT` |
 
-## 📊 Key Insights *(fill in after running the queries on your machine)*
-
-- Gender distribution: *e.g., ~50/50 split, with [gender] showing a slightly higher average obsession score*
-- Diagnosis trend: *e.g., steady/increasing diagnoses between [year range]*
-- Most common obsession type: *e.g., [type], avg Y-BOCS score of [X]*
-- Most common compulsion type: *e.g., [type], avg Y-BOCS score of [X]*
-
 ## 📈 Future Improvements
 
 - Add visualizations (Tableau / Power BI / Python matplotlib) on top of query outputs
@@ -99,10 +92,4 @@ No external libraries or dependencies are required — this is a pure SQL projec
 - Break down trends by medication type and treatment outcomes
 - Segment analysis by age group and education level
 
-## 🤝 Contributing
 
-This is a personal learning/portfolio project, but suggestions and pull requests for additional queries or analysis angles are welcome.
-
-## 📄 License
-
-This project is for educational purposes. Dataset usage should comply with its original source's license terms.
