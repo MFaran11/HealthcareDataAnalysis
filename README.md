@@ -1,175 +1,108 @@
-OCD Patient Healthcare Data Analysis — MySQL
+# OCD Patient Healthcare Data Analysis (MySQL)
 
-This is a SQL-based data analysis project where I used **MySQL** to explore a dataset of 1,500 OCD patient records.
+A SQL-based exploratory data analysis project on a dataset of Obsessive-Compulsive Disorder (OCD) patients, examining diagnosis patterns, symptom severity, and demographic trends using MySQL.
 
-The main aim of this project was to practice SQL concepts such as `GROUP BY`, `AVG()`, `COUNT()`, CTEs, date functions, and filtering while working with a healthcare dataset.
+Problem Statement
 
-Note: This dataset is anonymized/synthetic-style and is used only for educational and portfolio purposes. It should not be used for real medical or clinical decisions.
+Mental health conditions like OCD affect patients differently based on demographics, symptom type, and co-occurring diagnoses. Healthcare providers and researchers need to understand these patterns to improve diagnosis, treatment planning, and resource allocation.
 
-## Project Questions
+This project analyzes a dataset of 1,500 OCD patient records to answer key questions:
 
-In this project, I wanted to find answers to the following questions:
+- How is OCD distributed across genders, and does symptom severity (Y-BOCS score) differ between them?
+- What percentage of the total patient population does each gender represent?
+- How have new OCD diagnoses trended month-over-month?
+- What is the most common type of obsession reported, and how severe are its symptoms on average?
+- What is the most common type of compulsion reported, and how severe are its symptoms on average?
 
-* How many male and female patients are in the dataset?
-* What is the average obsession Y-BOCS score for each gender?
-* What percentage of the total patients does each gender represent?
-* How many new OCD diagnoses were recorded each month?
-* Which type of obsession is most common?
-* What is the average Y-BOCS obsession score for the most common obsession type?
-* Which type of compulsion is most common?
-* What is the average Y-BOCS compulsion score for the most common compulsion type?
+The goal is to transform raw patient records into clear, actionable insights using SQL queries.
 
-Dataset
+## 📂 Dataset
 
-File: `ocd_patient.csv`
+**File:** `ocd_patient.csv`
 
-The dataset contains **1,500 patient records** with information such as:
+The dataset contains 1,500 anonymized patient records with the following fields:
 
-| Column                     | Description                      |
-| -------------------------- | -------------------------------- |
-| Patient ID                 | Unique ID for each patient       |
-| Age                        | Age of the patient               |
-| Gender                     | Male / Female                    |
-| Ethnicity                  | Patient ethnicity                |
-| Marital Status             | Marital status                   |
-| Education Level            | Highest education level          |
-| OCD Diagnosis Date         | Date when OCD was diagnosed      |
-| Duration of Symptoms       | Duration of symptoms in months   |
-| Previous Diagnoses         | Previous mental health diagnoses |
-| Family History of OCD      | Yes / No                         |
-| Obsession Type             | Type of obsessive thoughts       |
-| Compulsion Type            | Type of compulsive behaviour     |
-| Y-BOCS Score (Obsessions)  | Obsession severity score         |
-| Y-BOCS Score (Compulsions) | Compulsion severity score        |
-| Depression Diagnosis       | Yes / No                         |
-| Anxiety Diagnosis          | Yes / No                         |
-| Medications                | Medication class                 |
+| Column | Description |
+|---|---|
+| Patient ID | Unique identifier for each patient |
+| Age | Patient's age |
+| Gender | Male / Female |
+| Ethnicity | Patient's ethnicity |
+| Marital Status | Single, Married, Divorced, etc. |
+| Education Level | Highest level of education completed |
+| OCD Diagnosis Date | Date of OCD diagnosis (MM/DD/YYYY in raw file) |
+| Duration of Symptoms (months) | How long symptoms have persisted |
+| Previous Diagnoses | Prior mental health diagnoses (e.g., MDD, PTSD) |
+| Family History of OCD | Yes/No |
+| Obsession Type | Category of obsessive thoughts (e.g., Harm-related, Contamination) |
+| Compulsion Type | Category of compulsive behavior (e.g., Checking, Washing) |
+| Y-BOCS Score (Obsessions) | Yale-Brown Obsessive Compulsive Scale score for obsessions |
+| Y-BOCS Score (Compulsions) | Yale-Brown Obsessive Compulsive Scale score for compulsions |
+| Depression Diagnosis | Yes/No |
+| Anxiety Diagnosis | Yes/No |
+| Medications | Prescribed medication class (e.g., SSRI, SNRI, Benzodiazepine) |
 
-Tools Used
+> **Note:** This is a de-identified/synthetic-style dataset used for learning and portfolio purposes only. It should not be used for real clinical decision-making.
 
-1. MySQL 8.0
-2. MySQL Workbench
-3. SQL
+## 🛠️ Tools & Requirements
 
-This is a pure SQL project, so I didn't use Python or any external libraries for the analysis.
+- **Database:** MySQL 8.0+
+- **Client:** MySQL Workbench (or any MySQL-compatible client — DBeaver, CLI, etc.)
+- **Language:** SQL
 
-Project Structure
+No external libraries or dependencies are required — this is a pure SQL project.
 
-```text
-OCD-Healthcare-Data-Analysis/
-│
-├── ocd_patient.csv
-├── Healthcare_Data_Analysis.sql
-└── README.md
+## 📁 Project Structure
+
+```
+├── ocd_patient.csv              # Raw dataset
+├── Healthcare_Data_Analysis.sql # All analysis queries
+└── README.md                    # Project documentation
 ```
 
-How I Ran the Project
+## 🚀 How to Run
 
-First, I created a database in MySQL:
+1. **Create a database and import the data**
+   ```sql
+   CREATE DATABASE project1;
+   USE project1;
+   ```
+   Import `ocd_patient.csv` into a table named `ocd_patient` using MySQL Workbench's Table Data Import Wizard, or `LOAD DATA INFILE`.
 
-```sql
-CREATE DATABASE project1;
-USE project1;
-```
+2. **Run the analysis script**
+   Open `Healthcare_Data_Analysis.sql` in MySQL Workbench and execute queries sequentially (top to bottom), since query 3 alters the schema (converts `OCD Diagnosis Date` to a proper `DATE` type) before later queries rely on it.
 
-Then I imported the `ocd_patient.csv` file into a table called:
+3. **Review results**
+   Each query is commented with the business question it answers.
 
-```text
-ocd_patient
-```
+## 🔍 Analysis Breakdown
 
-After importing the data, I ran the queries from `Healthcare_Data_Analysis.sql` in MySQL Workbench.
+| # | Question | Approach |
+|---|---|---|
+| 1 | Patient count & avg obsession severity by gender | `GROUP BY` + `AVG()` |
+| 2 | Gender distribution as a percentage of total patients | CTE + `JOIN` to compute percentage of total |
+| 3 | Monthly trend of new diagnoses | Date type conversion (`STR_TO_DATE`, `ALTER TABLE`) + `DATE_FORMAT` + `GROUP BY` |
+| 4 | Most common obsession type & its average severity | `GROUP BY` + `ORDER BY` + `LIMIT` |
+| 5 | Most common compulsion type & its average severity | `GROUP BY` + `ORDER BY` + `LIMIT` |
 
-One of the queries also converts the diagnosis date from the original text format into a proper MySQL `DATE` format so that I could perform monthly analysis.
+## 📊 Key Insights *(fill in after running the queries on your machine)*
 
-Analysis Performed
+- Gender distribution: *e.g., ~50/50 split, with [gender] showing a slightly higher average obsession score*
+- Diagnosis trend: *e.g., steady/increasing diagnoses between [year range]*
+- Most common obsession type: *e.g., [type], avg Y-BOCS score of [X]*
+- Most common compulsion type: *e.g., [type], avg Y-BOCS score of [X]*
 
- 1. Gender and Obsession Severity
+## 📈 Future Improvements
 
-I grouped the patients by gender and calculated:
+- Add visualizations (Tableau / Power BI / Python matplotlib) on top of query outputs
+- Analyze correlation between comorbid depression/anxiety and symptom severity
+- Break down trends by medication type and treatment outcomes
+- Segment analysis by age group and education level
 
-* Number of patients
-* Average Y-BOCS obsession score
+## 🤝 Contributing
 
-SQL concepts used:
+This is a personal learning/portfolio project, but suggestions and pull requests for additional queries or analysis angles are welcome.
 
-```text
-GROUP BY
-COUNT()
-AVG()
-```
+## 📄 License
 
-2. Gender Percentage
-
-I calculated how much of the total patient population each gender represents.
-
-For this, I used a **CTE** and calculated the percentage using the total number of patients.
-
-3. Monthly OCD Diagnoses
-
-The diagnosis date was originally stored in `MM/DD/YYYY` format.
-
-I converted it into a proper `DATE` value using:
-
-```sql
-STR_TO_DATE()
-```
-
-Then I grouped the records by month using:
-
-```sql
-DATE_FORMAT()
-```
-
-This helped me see how the number of new diagnoses changed over time.
-
-4. Most Common Obsession
-
-I grouped patients based on their obsession type and counted the number of patients in each category.
-
-I then sorted the results and used:
-
-```sql
-ORDER BY
-LIMIT 1
-```
-
-to find the most common obsession type.
-
-I also calculated its average obsession Y-BOCS score.
-
-5. Most Common Compulsion
-
-I followed a similar approach for compulsion types.
-
-The analysis shows:
-
-* The most common compulsion type
-* Number of patients with that compulsion
-* Average Y-BOCS compulsion score
-
-What I Learned
-
-Through this project, I practiced:
-
-* Writing SQL queries
-* Using aggregate functions
-* Grouping and sorting data
-* Working with dates in MySQL
-* Using CTEs
-* Calculating percentages
-* Exploring healthcare-related datasets
-* Turning SQL results into useful observations
-
-Possible Improvements
-
-If I continue working on this project, I would like to:
-
-* Create visualizations using Tableau
-* Analyze OCD severity by age group
-* Compare patients with and without anxiety/depression
-* Analyze medication types
-* Explore the relationship between family history and OCD severity
-* Create a dashboard using the SQL results
-
-
+This project is for educational purposes. Dataset usage should comply with its original source's license terms.
